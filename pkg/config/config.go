@@ -16,6 +16,8 @@ func Load() (Config, error) {
 	v := viper.New()
 	v.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	v.AutomaticEnv()
+	_ = v.BindEnv("port", "PORT")
+	_ = v.BindEnv("backend.base_url", "BACKEND_BASE_URL")
 
 	v.SetDefault("backend.base_url", "http://localhost:8082")
 	v.SetDefault("port", ":8081")

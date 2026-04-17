@@ -33,7 +33,7 @@ func readJSONResponse(resp *http.Response, dst any) error {
 		return fmt.Errorf("response body exceeds %d bytes", maxJSONResponseBytes)
 	}
 	if err := json.Unmarshal(b, dst); err != nil {
-		return err
+		return fmt.Errorf("decode json: %w", err)
 	}
 	return nil
 }

@@ -19,6 +19,7 @@ func (h *Transport) RoundTrip(req *http.Request) (*http.Response, error) {
 
 	if headers, ok := req.Context().Value(ContextKey{}).(http.Header); ok {
 		for key, values := range headers {
+			newReq.Header.Del(key)
 			for _, value := range values {
 				newReq.Header.Add(key, value)
 			}

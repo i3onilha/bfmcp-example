@@ -4,6 +4,7 @@ package usecase
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 
 	"bff-example/internal/domain/entity"
@@ -29,6 +30,10 @@ func NewProcessOrder(userRepo repository.UserRepository, orderRepo repository.Or
 
 // Execute processes an order through the BFF workflow.
 func (p *ProcessOrder) Execute(ctx context.Context, input ProcessOrderInput) (*ProcessOrderOutput, error) {
+	if err := validateProcessOrderInput(input); err != nil {
+		return nil, err
+	}
+
 	// Step 1: Validate user exists.
 	user, err := p.userRepo.GetByID(ctx, input.UserID)
 	if err != nil {
@@ -58,4 +63,19 @@ func (p *ProcessOrder) Execute(ctx context.Context, input ProcessOrderInput) (*P
 			ProcessedAt: time.Now().UTC().Format(time.RFC3339),
 		},
 	}, nil
+}
+
+func validateProcessOrderInput(in ProcessOrderInput) error {
+	if strings.TrimSpace(in.OrderID) == "" {
+		return fmt.Errorf("%w: empty orderId", ErrInvalidOrderInput)
+	}
+	if strings.TrimSpace(in.UserID) == "" {
+		return fmt.Errorf("%w: empty userId", ErrInvalidOrderInput)
+	}
+	switch in.Priority {
+	case entity.PriorityHigh, entity.PriorityNormal, entity.PriorityLow:
+		return nil
+	default:
+		return fmt.Errorf("%w: priority must be high, normal, or low", ErrInvalidOrderInput)
+	}
 }

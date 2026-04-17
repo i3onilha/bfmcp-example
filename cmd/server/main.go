@@ -9,7 +9,9 @@ import (
 	"bff-example/pkg/config"
 	"bff-example/pkg/headerforward"
 	"context"
+	"fmt"
 	"log"
+	"net"
 	"net/http"
 
 	"github.com/modelcontextprotocol/go-sdk/mcp"
@@ -53,9 +55,13 @@ func runServer(lc fx.Lifecycle, cfg config.Config, server *mcp.Server) {
 
 	lc.Append(fx.Hook{
 		OnStart: func(_ context.Context) error {
+			ln, err := net.Listen("tcp", srv.Addr)
+			if err != nil {
+				return fmt.Errorf("listen on %s: %w", srv.Addr, err)
+			}
 			go func() {
-				log.Printf("Starting BFF Server on %s", srv.Addr)
-				if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+				log.Printf("Starting BFF Server on %s", ln.Addr().String())
+				if err := srv.Serve(ln); err != nil && err != http.ErrServerClosed {
 					log.Printf("BFF server exited: %v", err)
 				}
 			}()
