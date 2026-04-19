@@ -13,8 +13,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/modelcontextprotocol/go-sdk/mcp"
 	"bff-example/pkg/headerforward"
+
+	"github.com/modelcontextprotocol/go-sdk/mcp"
 )
 
 func main() {
@@ -55,7 +56,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to process order: %v", err)
 	}
-	buf, err := json.Marshal(orderResult.StructuredContent)
+	buf, err := json.Marshal(orderResult)
 	fmt.Println(string(buf))
 }
 
