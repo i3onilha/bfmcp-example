@@ -4,8 +4,8 @@ package transport
 import (
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 
-	"bff-example/internal/adapter/handler"
-	"bff-example/internal/adapter/middleware"
+	"bfm-example/internal/adapter/handler"
+	"bfm-example/internal/adapter/middleware"
 )
 
 // RegisterTools creates and configures an MCP BFF server with all tools.

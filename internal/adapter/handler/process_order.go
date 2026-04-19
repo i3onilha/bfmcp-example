@@ -7,8 +7,8 @@ import (
 
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 
-	"bff-example/internal/domain/usecase"
-	"bff-example/pkg/headerforward"
+	"bfm-example/internal/domain/usecase"
+	"bfm-example/pkg/headerforward"
 )
 
 // ProcessOrderHandler handles the process_order BFF tool.

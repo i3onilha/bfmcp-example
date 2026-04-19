@@ -9,9 +9,9 @@ import (
 	"net/http"
 	"strings"
 
-	"bff-example/internal/config"
-	"bff-example/internal/domain/entity"
-	"bff-example/pkg/httpjson"
+	"bfm-example/internal/config"
+	"bfm-example/internal/domain/entity"
+	"bfm-example/pkg/httpjson"
 )
 
 // OrderRepo implements repository.OrderRepository via HTTP.

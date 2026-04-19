@@ -13,7 +13,7 @@ import (
 	"net/http"
 	"time"
 
-	"bff-example/pkg/headerforward"
+	"bfm-example/pkg/headerforward"
 
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 )

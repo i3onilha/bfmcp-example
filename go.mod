@@ -1,4 +1,4 @@
-module bff-example
+module bfm-example
 
 go 1.25.1
 

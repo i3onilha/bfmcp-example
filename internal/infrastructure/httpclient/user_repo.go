@@ -7,10 +7,10 @@ import (
 	"net/url"
 	"strings"
 
-	"bff-example/internal/config"
-	"bff-example/internal/domain/entity"
-	"bff-example/internal/domain/repository"
-	"bff-example/pkg/httpjson"
+	"bfm-example/internal/config"
+	"bfm-example/internal/domain/entity"
+	"bfm-example/internal/domain/repository"
+	"bfm-example/pkg/httpjson"
 )
 
 // UserRepo implements repository.UserRepository via HTTP.

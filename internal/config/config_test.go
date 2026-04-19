@@ -3,7 +3,7 @@ package config_test
 import (
 	"testing"
 
-	"bff-example/internal/config"
+	"bfm-example/internal/config"
 )
 
 func TestLoad_envOverrides(t *testing.T) {

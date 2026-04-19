@@ -1,8 +1,10 @@
-# bff-example
+# bfm-example
 
-A small **Backend-for-Frontend (BFF)** proof of concept written in Go. The BFF exposes a single workflow—**process order**—as a [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) tool over HTTP. It validates input, checks that the user exists via the backend, forwards the order to the backend, then enriches the result (user details and BFF metadata).
+Go module **`bfm-example`** (see [`go.mod`](go.mod)).
 
-The codebase follows a layered layout: domain (entities, repositories, use cases), infrastructure (HTTP clients with header forwarding), and adapters (MCP handlers, transport). Wiring uses [Uber Fx](https://uber-go.github.io/fx/).
+**bfmcp** means **Backend for Model Context Protocol**. This repo is a small **Backend-for-Frontend (BFF)** proof of concept in Go: the BFF exposes a single workflow—**process order**—as a [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) tool over HTTP. It validates input, checks that the user exists via the backend, forwards the order to the backend, then enriches the result (user details and BFF metadata).
+
+The codebase follows a layered layout: domain (entities, repositories, use cases), infrastructure (HTTP clients with header forwarding), and adapters (MCP handlers, middleware, transport). Wiring uses [Uber Fx](https://uber-go.github.io/fx/).
 
 ## Requirements
 
@@ -62,8 +64,11 @@ go test ./...
 ## Project layout (high level)
 
 - `cmd/server` — Fx-wired MCP HTTP server (`main.go`).
+- `internal/config` — Loads `PORT` and `BACKEND_BASE_URL` (Viper).
 - `internal/domain` — Entities, repository ports, and use cases (e.g. `ProcessOrder`).
 - `internal/infrastructure/httpclient` — HTTP implementations of repositories.
-- `internal/adapter` — MCP tool handlers and transport registration.
-- `pkg/headerforward` — Propagates allowlisted headers from context into outbound HTTP calls.
-- `main.go` (root) — Mock backend + MCP demo client (not the production server entrypoint).
+- `internal/adapter` — MCP tool handlers, logging middleware, and transport registration.
+- `pkg/headerforward` — Allowlisted headers from context into outbound HTTP and MCP client calls.
+- `pkg/httpjson` — Bounded JSON decoding from HTTP responses.
+- `pkg/validate` — Shared [go-playground/validator](https://github.com/go-playground/validator) setup (e.g. custom tags).
+- `main.go` (root) — Mock backend on **:8082** + MCP demo client targeting the BFF (not the production server entrypoint).

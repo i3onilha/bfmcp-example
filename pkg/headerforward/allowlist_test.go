@@ -1,7 +1,7 @@
 package headerforward_test
 
 import (
-	"bff-example/pkg/headerforward"
+	"bfm-example/pkg/headerforward"
 	"net/http"
 	"reflect"
 	"testing"

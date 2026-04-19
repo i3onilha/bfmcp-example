@@ -1,14 +1,14 @@
 package main
 
 import (
-	"bff-example/internal/adapter/handler"
-	"bff-example/internal/adapter/transport"
-	"bff-example/internal/config"
-	"bff-example/internal/domain/repository"
-	"bff-example/internal/domain/usecase"
-	"bff-example/internal/infrastructure/httpclient"
-	"bff-example/pkg/headerforward"
-	"bff-example/pkg/validate"
+	"bfm-example/internal/adapter/handler"
+	"bfm-example/internal/adapter/transport"
+	"bfm-example/internal/config"
+	"bfm-example/internal/domain/repository"
+	"bfm-example/internal/domain/usecase"
+	"bfm-example/internal/infrastructure/httpclient"
+	"bfm-example/pkg/headerforward"
+	"bfm-example/pkg/validate"
 	"context"
 	"fmt"
 	"log"

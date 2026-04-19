@@ -4,7 +4,7 @@ package repository
 import (
 	"context"
 
-	"bff-example/internal/domain/entity"
+	"bfm-example/internal/domain/entity"
 )
 
 // UserRepository defines the contract for user data access.

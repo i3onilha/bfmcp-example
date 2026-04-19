@@ -7,10 +7,10 @@ import (
 
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 
-	"bff-example/internal/adapter/handler"
-	"bff-example/internal/domain/entity"
-	"bff-example/internal/domain/usecase"
-	pkgvalidate "bff-example/pkg/validate"
+	"bfm-example/internal/adapter/handler"
+	"bfm-example/internal/domain/entity"
+	"bfm-example/internal/domain/usecase"
+	pkgvalidate "bfm-example/pkg/validate"
 )
 
 type panicUserRepo struct{}

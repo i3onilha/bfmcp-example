@@ -7,10 +7,10 @@ import (
 
 	v10 "github.com/go-playground/validator/v10"
 
-	"bff-example/internal/domain/entity"
-	"bff-example/internal/domain/repository"
-	"bff-example/internal/domain/usecase"
-	pkgvalidate "bff-example/pkg/validate"
+	"bfm-example/internal/domain/entity"
+	"bfm-example/internal/domain/repository"
+	"bfm-example/internal/domain/usecase"
+	pkgvalidate "bfm-example/pkg/validate"
 )
 
 type fakeUserRepo struct {

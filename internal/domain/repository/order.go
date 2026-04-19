@@ -4,7 +4,7 @@ package repository
 import (
 	"context"
 
-	"bff-example/internal/domain/entity"
+	"bfm-example/internal/domain/entity"
 )
 
 // OrderRepository defines the contract for order data access.

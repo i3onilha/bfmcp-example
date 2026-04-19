@@ -8,8 +8,8 @@ import (
 
 	"github.com/go-playground/validator/v10"
 
-	"bff-example/internal/domain/entity"
-	"bff-example/internal/domain/repository"
+	"bfm-example/internal/domain/entity"
+	"bfm-example/internal/domain/repository"
 )
 
 // ProcessOrder handles the order processing workflow:

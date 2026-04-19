@@ -9,10 +9,10 @@ import (
 	"strings"
 	"testing"
 
-	"bff-example/internal/domain/entity"
-	"bff-example/internal/domain/repository"
-	"bff-example/internal/infrastructure/httpclient"
-	"bff-example/internal/config"
+	"bfm-example/internal/domain/entity"
+	"bfm-example/internal/domain/repository"
+	"bfm-example/internal/infrastructure/httpclient"
+	"bfm-example/internal/config"
 )
 
 func TestUserRepo_GetByID_success(t *testing.T) {

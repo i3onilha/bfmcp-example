@@ -6,7 +6,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"bff-example/pkg/headerforward"
+	"bfm-example/pkg/headerforward"
 )
 
 func TestTransport_replacesForwardedHeaders(t *testing.T) {
