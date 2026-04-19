@@ -10,7 +10,7 @@ import (
 	"strings"
 
 	"bff-example/internal/domain/entity"
-	"bff-example/pkg/config"
+	"bff-example/internal/config"
 )
 
 // OrderRepo implements repository.OrderRepository via HTTP.

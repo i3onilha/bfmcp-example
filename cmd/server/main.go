@@ -6,7 +6,7 @@ import (
 	"bff-example/internal/domain/repository"
 	"bff-example/internal/domain/usecase"
 	"bff-example/internal/infrastructure/httpclient"
-	"bff-example/pkg/config"
+	"bff-example/internal/config"
 	"bff-example/pkg/headerforward"
 	"context"
 	"fmt"

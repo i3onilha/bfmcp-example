@@ -12,7 +12,7 @@ import (
 	"bff-example/internal/domain/entity"
 	"bff-example/internal/domain/repository"
 	"bff-example/internal/infrastructure/httpclient"
-	"bff-example/pkg/config"
+	"bff-example/internal/config"
 )
 
 func TestUserRepo_GetByID_success(t *testing.T) {

@@ -9,7 +9,7 @@ import (
 
 	"bff-example/internal/domain/entity"
 	"bff-example/internal/domain/repository"
-	"bff-example/pkg/config"
+	"bff-example/internal/config"
 )
 
 // UserRepo implements repository.UserRepository via HTTP.
