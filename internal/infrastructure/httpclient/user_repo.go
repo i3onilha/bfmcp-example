@@ -7,9 +7,10 @@ import (
 	"net/url"
 	"strings"
 
+	"bff-example/internal/config"
 	"bff-example/internal/domain/entity"
 	"bff-example/internal/domain/repository"
-	"bff-example/internal/config"
+	"bff-example/pkg/httpjson"
 )
 
 // UserRepo implements repository.UserRepository via HTTP.
@@ -38,7 +39,7 @@ func (r *UserRepo) GetByID(ctx context.Context, userID string) (*entity.User, er
 	if err != nil {
 		return nil, fmt.Errorf("backend request failed: %w", err)
 	}
-	defer closeResp(resp)
+	defer httpjson.DrainAndClose(resp)
 
 	if resp.StatusCode == http.StatusNotFound {
 		return nil, fmt.Errorf("%w: %s", repository.ErrUserNotFound, userID)
@@ -48,7 +49,7 @@ func (r *UserRepo) GetByID(ctx context.Context, userID string) (*entity.User, er
 	}
 
 	var out entity.User
-	if err := readJSONResponse(resp, &out); err != nil {
+	if err := httpjson.DecodeJSON(resp, &out); err != nil {
 		return nil, fmt.Errorf("decode user response: %w", err)
 	}
 	return &out, nil

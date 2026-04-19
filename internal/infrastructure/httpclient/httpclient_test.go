@@ -55,7 +55,7 @@ func TestUserRepo_GetByID_responseTooLarge(t *testing.T) {
 	t.Parallel()
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		// Slightly over 1 MiB forces readJSONResponse to reject after bounded read.
+		// Slightly over 1 MiB forces bounded JSON decoding to reject the body.
 		_, _ = w.Write(make([]byte, 1<<20+1024))
 	}))
 	t.Cleanup(srv.Close)

@@ -9,8 +9,9 @@ import (
 	"net/http"
 	"strings"
 
-	"bff-example/internal/domain/entity"
 	"bff-example/internal/config"
+	"bff-example/internal/domain/entity"
+	"bff-example/pkg/httpjson"
 )
 
 // OrderRepo implements repository.OrderRepository via HTTP.
@@ -59,14 +60,14 @@ func (r *OrderRepo) ProcessOrder(ctx context.Context, order *entity.Order) (*ent
 	if err != nil {
 		return nil, fmt.Errorf("backend request failed: %w", err)
 	}
-	defer closeResp(resp)
+	defer httpjson.DrainAndClose(resp)
 
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("backend returned %s for order %s", resp.Status, order.OrderID)
 	}
 
 	var out processOrderResponse
-	if err := readJSONResponse(resp, &out); err != nil {
+	if err := httpjson.DecodeJSON(resp, &out); err != nil {
 		return nil, fmt.Errorf("decode order response: %w", err)
 	}
 
