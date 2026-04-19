@@ -3,9 +3,9 @@ package usecase
 
 // ProcessOrderInput defines the input for processing an order.
 type ProcessOrderInput struct {
-	OrderID  string `json:"orderId"`
-	UserID   string `json:"userId"`
-	Priority string `json:"priority"`
+	OrderID  string `json:"orderId" validate:"notblank"`
+	UserID   string `json:"userId" validate:"notblank"`
+	Priority string `json:"priority" validate:"required,oneof=high normal low"`
 }
 
 // ProcessOrderOutput defines the enriched output after processing an order.

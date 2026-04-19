@@ -3,11 +3,12 @@ package main
 import (
 	"bff-example/internal/adapter/handler"
 	"bff-example/internal/adapter/transport"
+	"bff-example/internal/config"
 	"bff-example/internal/domain/repository"
 	"bff-example/internal/domain/usecase"
 	"bff-example/internal/infrastructure/httpclient"
-	"bff-example/internal/config"
 	"bff-example/pkg/headerforward"
+	"bff-example/pkg/validate"
 	"context"
 	"fmt"
 	"log"
@@ -35,6 +36,7 @@ var moduleOrder = fx.Module("order",
 			httpclient.NewOrderRepo,
 			fx.As(new(repository.OrderRepository)),
 		),
+		validate.New,
 		usecase.NewProcessOrder,
 		handler.NewProcessOrderHandler,
 	),

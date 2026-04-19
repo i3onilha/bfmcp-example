@@ -5,9 +5,12 @@ import (
 	"errors"
 	"testing"
 
+	v10 "github.com/go-playground/validator/v10"
+
 	"bff-example/internal/domain/entity"
 	"bff-example/internal/domain/repository"
 	"bff-example/internal/domain/usecase"
+	pkgvalidate "bff-example/pkg/validate"
 )
 
 type fakeUserRepo struct {
@@ -34,11 +37,21 @@ func (f *fakeOrderRepo) ProcessOrder(ctx context.Context, order *entity.Order) (
 	return f.order, nil
 }
 
+func mustValidator(t *testing.T) *v10.Validate {
+	t.Helper()
+	v, err := pkgvalidate.New()
+	if err != nil {
+		t.Fatal(err)
+	}
+	return v
+}
+
 func TestProcessOrder_Execute_success(t *testing.T) {
 	t.Parallel()
 	uc := usecase.NewProcessOrder(
 		&fakeUserRepo{user: &entity.User{ID: "u1", Name: "A", Email: "a@x"}},
 		&fakeOrderRepo{order: &entity.Order{OrderID: "o1", Status: "ok", EstimatedAt: "t"}},
+		mustValidator(t),
 	)
 	out, err := uc.Execute(context.Background(), usecase.ProcessOrderInput{
 		OrderID:  "o1",
@@ -55,7 +68,7 @@ func TestProcessOrder_Execute_success(t *testing.T) {
 
 func TestProcessOrder_Execute_validation(t *testing.T) {
 	t.Parallel()
-	uc := usecase.NewProcessOrder(&fakeUserRepo{}, &fakeOrderRepo{})
+	uc := usecase.NewProcessOrder(&fakeUserRepo{}, &fakeOrderRepo{}, mustValidator(t))
 	_, err := uc.Execute(context.Background(), usecase.ProcessOrderInput{
 		OrderID:  "",
 		UserID:   "u1",
@@ -71,6 +84,7 @@ func TestProcessOrder_Execute_userNotFound(t *testing.T) {
 	uc := usecase.NewProcessOrder(
 		&fakeUserRepo{err: repository.ErrUserNotFound},
 		&fakeOrderRepo{},
+		mustValidator(t),
 	)
 	_, err := uc.Execute(context.Background(), usecase.ProcessOrderInput{
 		OrderID:  "o1",

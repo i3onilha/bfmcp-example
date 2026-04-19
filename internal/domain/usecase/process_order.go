@@ -4,8 +4,9 @@ package usecase
 import (
 	"context"
 	"fmt"
-	"strings"
 	"time"
+
+	"github.com/go-playground/validator/v10"
 
 	"bff-example/internal/domain/entity"
 	"bff-example/internal/domain/repository"
@@ -18,20 +19,22 @@ import (
 type ProcessOrder struct {
 	userRepo  repository.UserRepository
 	orderRepo repository.OrderRepository
+	validator *validator.Validate
 }
 
 // NewProcessOrder creates a new ProcessOrder use case.
-func NewProcessOrder(userRepo repository.UserRepository, orderRepo repository.OrderRepository) *ProcessOrder {
+func NewProcessOrder(userRepo repository.UserRepository, orderRepo repository.OrderRepository, validator *validator.Validate) *ProcessOrder {
 	return &ProcessOrder{
 		userRepo:  userRepo,
 		orderRepo: orderRepo,
+		validator: validator,
 	}
 }
 
 // Execute processes an order through the BFF workflow.
 func (p *ProcessOrder) Execute(ctx context.Context, input ProcessOrderInput) (*ProcessOrderOutput, error) {
-	if err := validateProcessOrderInput(input); err != nil {
-		return nil, err
+	if err := p.validator.Struct(&input); err != nil {
+		return nil, fmt.Errorf("%w: %v", ErrInvalidOrderInput, err)
 	}
 
 	// Step 1: Validate user exists.
@@ -63,19 +66,4 @@ func (p *ProcessOrder) Execute(ctx context.Context, input ProcessOrderInput) (*P
 			ProcessedAt: time.Now().UTC().Format(time.RFC3339),
 		},
 	}, nil
-}
-
-func validateProcessOrderInput(in ProcessOrderInput) error {
-	if strings.TrimSpace(in.OrderID) == "" {
-		return fmt.Errorf("%w: empty orderId", ErrInvalidOrderInput)
-	}
-	if strings.TrimSpace(in.UserID) == "" {
-		return fmt.Errorf("%w: empty userId", ErrInvalidOrderInput)
-	}
-	switch in.Priority {
-	case entity.PriorityHigh, entity.PriorityNormal, entity.PriorityLow:
-		return nil
-	default:
-		return fmt.Errorf("%w: priority must be high, normal, or low", ErrInvalidOrderInput)
-	}
 }

@@ -10,6 +10,7 @@ import (
 	"bff-example/internal/adapter/handler"
 	"bff-example/internal/domain/entity"
 	"bff-example/internal/domain/usecase"
+	pkgvalidate "bff-example/pkg/validate"
 )
 
 type panicUserRepo struct{}
@@ -26,16 +27,20 @@ func (panicOrderRepo) ProcessOrder(context.Context, *entity.Order) (*entity.Orde
 
 func TestProcessOrderHandler_validationBeforeRepos(t *testing.T) {
 	t.Parallel()
-	uc := usecase.NewProcessOrder(panicUserRepo{}, panicOrderRepo{})
+	v, err := pkgvalidate.New()
+	if err != nil {
+		t.Fatal(err)
+	}
+	uc := usecase.NewProcessOrder(panicUserRepo{}, panicOrderRepo{}, v)
 	h := handler.NewProcessOrderHandler(uc)
 
 	req := &mcp.CallToolRequest{Extra: &mcp.RequestExtra{}}
-	_, _, err := h.Handle(context.Background(), req, &handler.ProcessOrderArgs{
+	_, _, handleErr := h.Handle(context.Background(), req, &handler.ProcessOrderArgs{
 		OrderID:  "",
 		UserID:   "u1",
 		Priority: entity.PriorityHigh,
 	})
-	if !errors.Is(err, usecase.ErrInvalidOrderInput) {
-		t.Fatalf("want ErrInvalidOrderInput, got %v", err)
+	if !errors.Is(handleErr, usecase.ErrInvalidOrderInput) {
+		t.Fatalf("want ErrInvalidOrderInput, got %v", handleErr)
 	}
 }
